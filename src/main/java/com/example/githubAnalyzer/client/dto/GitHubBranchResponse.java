@@ -9,6 +9,6 @@ public class GitHubBranchResponse {
 
     @Value
     public static class Commit {
-        private String sha;
+        String sha;
     }
 }

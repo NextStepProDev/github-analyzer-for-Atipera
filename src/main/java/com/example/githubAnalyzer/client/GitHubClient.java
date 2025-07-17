@@ -16,14 +16,12 @@ import java.util.Objects;
 public class GitHubClient {
 
     private final RestClient restClient;
-    private final String githubApiUrl;
 
     public GitHubClient(
             RestClient.Builder restClientBuilder,
-            @Value("${github.api.url}") String githubApiUrl
+            @Value("${github.api.url}") String gitHubApiUrl
     ) {
-        this.restClient = restClientBuilder.baseUrl(githubApiUrl).build();
-        this.githubApiUrl = githubApiUrl;
+        this.restClient = restClientBuilder.baseUrl(gitHubApiUrl).build();
     }
 
     public List<GitHubRepositoryResponse> fetchRepositories(String username) {
@@ -51,9 +49,14 @@ public class GitHubClient {
                 .build(username, repoName)
                 .toString();
 
-        return List.of(Objects.requireNonNull(restClient.get()
-                .uri(uri)
-                .retrieve()
-                .body(GitHubBranchResponse[].class)));
+        return List.of(
+                Objects.requireNonNull(restClient.get()
+                        .uri(uri)
+                        .retrieve()
+                        .onStatus(status -> status.value() == 404, (req, res) -> {
+                            throw new GitHubUserNotFoundException("User or repo not found: %s/%s".formatted(username, repoName));
+                        })
+                        .body(GitHubBranchResponse[].class))
+        );
     }
 }
