@@ -15,8 +15,8 @@ Returns 404 if user does not exist.
 ```json
 [
   {
-    "repositoryName": "example-repo",
-    "ownerLogin": "octocat",
+    "repositoryName": "guava",
+    "ownerLogin": "google",
     "branches": [
       {
         "name": "main",
