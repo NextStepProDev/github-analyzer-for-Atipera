@@ -1,0 +1,10 @@
+github:
+  api:
+    url: https://api.github.com
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: github-analyzer-for-Atipera
