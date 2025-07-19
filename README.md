@@ -15,7 +15,7 @@ Returns 404 if user does not exist.
 ```json
 [
   {
-    "repositoryName": "guava",
+    "name": "guava",
     "ownerLogin": "google",
     "branches": [
       {
@@ -43,7 +43,6 @@ Make sure port 8080 is free before starting the application.
 - Spring Boot 3.5
 - RestTemplate
 - JUnit 5 (integration test)
-- Lombok
 
 ## Author
 

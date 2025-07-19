@@ -1,9 +1,4 @@
 package com.example.githubAnalyzer.dto;
 
-import lombok.Value;
-
-@Value
-public class BranchDTO {
-    String name;
-    String lastCommitSha;
+public record BranchDTO(String name, String lastCommitSha) {
 }

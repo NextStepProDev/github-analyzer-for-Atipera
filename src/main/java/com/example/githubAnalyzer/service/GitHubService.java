@@ -5,29 +5,36 @@ import com.example.githubAnalyzer.client.dto.GitHubBranchResponse;
 import com.example.githubAnalyzer.client.dto.GitHubRepositoryResponse;
 import com.example.githubAnalyzer.dto.BranchDTO;
 import com.example.githubAnalyzer.dto.RepositoryDTO;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class GitHubService {
 
     private final GitHubClient gitHubClient;
 
+    public GitHubService(GitHubClient gitHubClient) {
+        this.gitHubClient = gitHubClient;
+    }
     public List<RepositoryDTO> getNonForkedRepositoriesWithBranches(String username) {
         List<GitHubRepositoryResponse> repositories = gitHubClient.fetchRepositories(username);
 
         return repositories.stream()
-                .filter(repo -> !repo.isFork())
+                .filter(repo -> !repo.fork())
                 .map(repo -> {
-                    List<GitHubBranchResponse> branches = gitHubClient.fetchBranches(username, repo.getName());
+                    List<GitHubBranchResponse> branches = gitHubClient.fetchBranches(username, repo.name());
                     List<BranchDTO> branchDTOs = branches.stream()
-                            .map(branch -> new BranchDTO(branch.getName(), branch.getCommit().getSha()))
+                            .map(branch -> Optional.ofNullable(branch.commit())
+                                    .map(GitHubBranchResponse.Commit::sha)
+                                    .map(sha -> new BranchDTO(branch.name(), sha))
+                                    .orElse(null))
+                            .filter(Objects::nonNull)
                             .collect(Collectors.toList());
-                    return new RepositoryDTO(repo.getName(), repo.getOwner().getLogin(), branchDTOs);
+                    return new RepositoryDTO(repo.name(), repo.owner().login(), branchDTOs);
                 })
                 .collect(Collectors.toList());
     }

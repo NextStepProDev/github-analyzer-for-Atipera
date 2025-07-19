@@ -1,6 +1,7 @@
 package com.example.githubAnalyzer.controller;
 
 import com.example.githubAnalyzer.dto.RepositoryDTO;
+import com.example.githubAnalyzer.exception.GlobalExceptionHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +22,7 @@ public class GitHubControllerIntegrationTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    void shouldReturnMyPublicNonForkRepositoriesWithBranches() {
+    void shouldReturnNonForkedRepositoriesWithBranchesForGivenUser() {
         // given
         String username = "NextStepProDev";
 
@@ -37,9 +38,11 @@ public class GitHubControllerIntegrationTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(repositories).isNotNull();
         assertThat(repositories.length).isGreaterThan(0);
-        assertThat(repositories[0].getRepositoryName()).isNotNull();
-        assertThat(repositories[0].getOwnerLogin()).isEqualTo(username);
-        assertThat(repositories[0].getBranches()).isNotNull();
+        assertThat(repositories[0].name()).isNotNull();
+        assertThat(repositories[0].ownerLogin()).isEqualTo(username);
+        assertThat(repositories[0].branches()).isNotNull();
+        assertThat(repositories[0].branches().get(0).name()).isNotNull();
+        assertThat(repositories[0].branches().get(0).lastCommitSha()).isNotNull();
     }
 
     @Test
@@ -48,14 +51,15 @@ public class GitHubControllerIntegrationTest {
         String invalidUsername = "DefinitelyNotExistingUser123456";
 
         // when
-        ResponseEntity<String> response = restTemplate.getForEntity(
+        ResponseEntity<GlobalExceptionHandler.ErrorResponse> response = restTemplate.getForEntity(
                 "http://localhost:" + port + "/api/repositories/" + invalidUsername,
-                String.class
+                GlobalExceptionHandler.ErrorResponse.class
         );
 
         // then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-        assertThat(response.getBody()).contains("\"status\":404");
-        assertThat(response.getBody()).contains("\"message\":\"User not found\"");
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().status()).isEqualTo(404);
+        assertThat(response.getBody().message()).isEqualTo("User not found");
     }
 }

@@ -1,21 +1,19 @@
 package com.example.githubAnalyzer.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.Map;
-
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(GitHubUserNotFoundException.class)
-    public ResponseEntity<Map<String, Object>> handleGitHubUserNotFound(GitHubUserNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(Map.of(
-                        "status", 404,
-                        "message", "User not found"
-                ));
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleGitHubUserNotFound(GitHubUserNotFoundException ex) {
+        return new ErrorResponse(404, "User not found");
+    }
+
+    public record ErrorResponse(int status, String message) {
     }
 }
