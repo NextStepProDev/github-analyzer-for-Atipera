@@ -57,6 +57,8 @@ Make sure port 8080 is free before starting the application.
 - RestTemplate
 - JUnit 5 (integration test)
 
+> This project was created as a solution for the GitHub analyzer task in the Atipera recruitment process.
+
 ## Author
 
 Mateusz Nawratek
