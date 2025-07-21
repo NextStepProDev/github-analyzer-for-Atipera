@@ -15,12 +15,16 @@ Returns 404 if user does not exist.
 ```json
 [
   {
-    "name": "guava",
-    "ownerLogin": "google",
+    "name": "github-analyzer",
+    "ownerLogin": "nextsteppro",
     "branches": [
       {
         "name": "main",
-        "lastCommitSha": "a84d88e7554fc1fa21bcbc4efae3c782a70d2b9d"
+        "lastCommitSha": "abc123def456"
+      },
+      {
+        "name": "develop",
+        "lastCommitSha": "789xyz987"
       }
     ]
   }
