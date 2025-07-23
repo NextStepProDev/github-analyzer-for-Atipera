@@ -17,6 +17,9 @@ public class GitHubClient {
 
     private final RestClient restClient;
 
+    @Value("${spring.application.name}")
+    private String applicationName;
+
     public GitHubClient(
             RestClient.Builder restClientBuilder,
             @Value("${github.api.url}") String gitHubApiUrl
@@ -33,7 +36,9 @@ public class GitHubClient {
         try {
             GitHubRepositoryResponse[] response = restClient.get()
                     .uri(uri)
+                    .header("User-Agent", applicationName)
                     .header("X-GitHub-Api-Version", "2022-11-28")
+                    .header("Accept", "application/vnd.github+json")
                     .retrieve()
                     .body(GitHubRepositoryResponse[].class);
 
@@ -53,7 +58,9 @@ public class GitHubClient {
         return List.of(
                 Objects.requireNonNull(restClient.get()
                         .uri(uri)
+                        .header("User-Agent", applicationName)
                         .header("X-GitHub-Api-Version", "2022-11-28")
+                        .header("Accept", "application/vnd.github+json")
                         .retrieve()
                         .onStatus(status -> status.value() == 404, (req, res) -> {
                             throw new GitHubUserNotFoundException("User or repo not found: %s/%s".formatted(username, repoName));

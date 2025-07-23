@@ -42,7 +42,7 @@ public class GitHubController {
                                                     [
                                                       {
                                                         "name": "github-analyzer",
-                                                        "ownerLogin": "nextsteppro",
+                                                        "ownerLogin": "nextstepprodev",
                                                         "branches": [
                                                           {
                                                             "name": "main",
