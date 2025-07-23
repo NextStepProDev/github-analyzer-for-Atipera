@@ -33,6 +33,7 @@ public class GitHubClient {
         try {
             GitHubRepositoryResponse[] response = restClient.get()
                     .uri(uri)
+                    .header("X-GitHub-Api-Version", "2022-11-28")
                     .retrieve()
                     .body(GitHubRepositoryResponse[].class);
 
@@ -52,6 +53,7 @@ public class GitHubClient {
         return List.of(
                 Objects.requireNonNull(restClient.get()
                         .uri(uri)
+                        .header("X-GitHub-Api-Version", "2022-11-28")
                         .retrieve()
                         .onStatus(status -> status.value() == 404, (req, res) -> {
                             throw new GitHubUserNotFoundException("User or repo not found: %s/%s".formatted(username, repoName));
