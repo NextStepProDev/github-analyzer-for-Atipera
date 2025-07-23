@@ -7,4 +7,4 @@ server:
 
 spring:
   application:
-    name: github-analyzer-for-Atipera
+    name: github-analyzer-for-atipera
