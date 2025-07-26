@@ -16,9 +16,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GitHubControllerIntegrationTest {
 
     @LocalServerPort
+    @SuppressWarnings("unused")
     private int port;
 
     @Autowired
+    @SuppressWarnings("unused")
     private TestRestTemplate restTemplate;
 
     @Test
@@ -41,8 +43,8 @@ public class GitHubControllerIntegrationTest {
         assertThat(repositories[0].name()).isNotNull();
         assertThat(repositories[0].ownerLogin()).isEqualTo(username);
         assertThat(repositories[0].branches()).isNotNull();
-        assertThat(repositories[0].branches().get(0).name()).isNotNull();
-        assertThat(repositories[0].branches().get(0).lastCommitSha()).isNotNull();
+        assertThat(repositories[0].branches().getFirst().name()).isNotNull();
+        assertThat(repositories[0].branches().getFirst().lastCommitSha()).isNotNull();
     }
 
     @Test

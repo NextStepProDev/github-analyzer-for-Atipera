@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
+@SuppressWarnings("unused")
 public class GitHubClientImpl implements GitHubClient {
 
     private final RestClient restClient;

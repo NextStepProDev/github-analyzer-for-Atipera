@@ -20,6 +20,13 @@ public class GitHubService {
     public GitHubService(GitHubClient gitHubClient) {
         this.gitHubClient = gitHubClient;
     }
+
+    /**
+     * Retrieves a list of non-forked repositories for a given GitHub user, along with their branches.
+     *
+     * @param username the GitHub username
+     * @return a list of RepositoryDTO containing repository names, owners, and their branches
+     */
     public List<RepositoryDTO> getNonForkedRepositoriesWithBranches(String username) {
         List<GitHubRepositoryResponse> repositories = gitHubClient.fetchRepositories(username);
 
