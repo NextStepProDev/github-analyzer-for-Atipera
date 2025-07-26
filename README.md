@@ -40,6 +40,15 @@ Returns 404 if user does not exist.
 ]
 ```
 
+### Example error response (404 Not Found):
+
+```json
+{
+  "status": 404,
+  "message": "User not found"
+}
+```
+
 ## API Testing with Swagger UI
 
 After running the application, you can test the API via Swagger at:
@@ -57,7 +66,24 @@ Make sure port 8080 is free before starting the application.
 - RestTemplate
 - JUnit 5 (integration test)
 
-> This project was created as a solution for the GitHub analyzer task in the Atipera recruitment process.
+## Cloning the repository
+
+To get started, clone the project using GitHub CLI:
+
+```bash
+gh repo clone NextStepProDev/github-analyzer-for-atipera
+```
+
+Or using HTTPS:
+
+```bash
+git clone https://github.com/NextStepProDev/github-analyzer-for-atipera.git
+```
+
+&nbsp;
+
+This project was created with ❤️ and commitment as a solution for the GitHub analyzer task in the Atipera recruitment
+process.
 
 ## Author
 
